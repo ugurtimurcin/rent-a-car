@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://www.kodlama.io/">
     <img src="https://user-images.githubusercontent.com/57873947/108094689-20091600-7090-11eb-9125-25ca1437f935.png" alt="Logo">
   </a>
 
