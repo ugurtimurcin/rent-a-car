@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RentACar.Business.Abstract;
 using RentACar.Core.Business;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
@@ -16,10 +17,12 @@ namespace RentACar.WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         private readonly IGenericService<Rental> _genericService;
+        private readonly IRentalService _rentalService;
         private readonly IMapper _mapper;
-        public RentalsController(IGenericService<Rental> genericService, IMapper mapper)
+        public RentalsController(IGenericService<Rental> genericService, IRentalService rentalService, IMapper mapper)
         {
             _genericService = genericService;
+            _rentalService = rentalService;
             _mapper = mapper;
         }
 
@@ -27,6 +30,7 @@ namespace RentACar.WebAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _genericService.GetAllAsync();
+            
             if (result.Success)
             {
                 return Ok(_mapper.Map<List<RentalDto>>(result.Data));
@@ -41,6 +45,28 @@ namespace RentACar.WebAPI.Controllers
             if (result.Success)
             {
                 return Ok(_mapper.Map<RentalDto>(result.Data));
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getrentaldetailbyid")]
+        public async Task<IActionResult> GetAllDetail(int id)
+        {
+            var result = await _rentalService.GetRentalDetailByIdAsync(id);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getallrentaldetail")]
+        public async Task<IActionResult> GetAllDetail()
+        {
+            var result = await _rentalService.GetRentalsDetailAsync();
+            if (result.Success)
+            {
+                return Ok(result.Data);
             }
             return BadRequest(result);
         }
