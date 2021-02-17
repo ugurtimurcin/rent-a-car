@@ -37,6 +37,9 @@ namespace RentACar.Business.Containers.MicrosoftIoC
             services.AddScoped<IRentalDal, EfRentalDal>();
             services.AddScoped<IRentalService, RentalManager>();
 
+            services.AddScoped<ICarDal, EfCarDal>();
+            services.AddScoped<ICarService, CarManager>();
+
 
             services.AddTransient<IValidator<AppUserAddDto>, AppUserAddValidator>();
             services.AddTransient<IValidator<AppUserUpdateDto>, AppUserUpdateValidator>();

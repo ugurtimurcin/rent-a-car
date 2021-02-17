@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RentACar.Business.Abstract;
 using RentACar.Core.Business;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
@@ -16,10 +17,12 @@ namespace RentACar.WebAPI.Controllers
     public class CarsController : ControllerBase
     {
         private readonly IGenericService<Car> _genericService;
+        private readonly ICarService _carService;
         private readonly IMapper _mapper;
-        public CarsController(IGenericService<Car> genericService, IMapper mapper)
+        public CarsController(IGenericService<Car> genericService, ICarService carService, IMapper mapper)
         {
             _genericService = genericService;
+            _carService = carService;
             _mapper = mapper;
         }
 
@@ -30,6 +33,16 @@ namespace RentACar.WebAPI.Controllers
             if (result.Success)
             {
                 return Ok(_mapper.Map<List<CarDto>>(result.Data));
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getallcarsdetail")]
+        public async Task<IActionResult> GetAllCars()
+        {
+            var result = await _carService.GetCarDetailAsync();
+            if (result.Success)
+            {
+                return Ok(result.Data);
             }
             return BadRequest(result);
         }
