@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using RentACar.Business.Abstract;
 using RentACar.Business.Concrete;
 using RentACar.Business.ValidationRules.FluentValidation;
 using RentACar.Core.Business;
@@ -32,6 +33,9 @@ namespace RentACar.Business.Containers.MicrosoftIoC
 
             services.AddScoped<IAppUserDal, EfAppUserDal>();
             services.AddScoped<IColorDal, EfColorDal>();
+
+            services.AddScoped<IRentalDal, EfRentalDal>();
+            services.AddScoped<IRentalService, RentalManager>();
 
 
             services.AddTransient<IValidator<AppUserAddDto>, AppUserAddValidator>();
