@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RentACar.Core.Utilities.Interceptors.MethodInterception;
 
 namespace RentACar.Business.DependencyResolvers.Autofac
 {
@@ -32,8 +33,14 @@ namespace RentACar.Business.DependencyResolvers.Autofac
             builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
 
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-           
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+                .EnableInterfaceInterceptors(new ProxyGenerationOptions()
+                {
+                    Selector = new AspectInterceptorSelector()
+                }).SingleInstance();
+
         }
     }
 }
