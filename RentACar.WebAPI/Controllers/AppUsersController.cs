@@ -16,6 +16,7 @@ namespace RentACar.WebAPI.Controllers
         private readonly IMapper _mapper;
         public AppUsersController(IAppUserService appUserService, IMapper mapper)
         {
+            _appUserService = appUserService;
             _mapper = mapper;
         }
         [HttpGet("getall")]
