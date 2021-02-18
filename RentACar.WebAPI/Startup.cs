@@ -28,7 +28,7 @@ namespace RentACar.WebAPI
         {
             //services.AddDependencies();
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers().AddFluentValidation();
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RentACar.WebAPI", Version = "v1" });
