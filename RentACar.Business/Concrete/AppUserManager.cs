@@ -44,6 +44,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IResult> UpdateAsync(AppUser entity)
         {
+            await _appUserDal.UpdateAsync(entity);
             return new SuccessResult();
         }
     }
