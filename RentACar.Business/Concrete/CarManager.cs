@@ -1,4 +1,6 @@
 ﻿using RentACar.Business.Abstract;
+using RentACar.Business.ValidationRules.FluentValidation;
+using RentACar.Core.Aspects.Autofac.Validation;
 using RentACar.Core.DataAccess;
 using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Core.Utilities.Results.Concrete;
@@ -21,6 +23,7 @@ namespace RentACar.Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public async Task<IResult> AddAsync(Car entity)
         {
             await _carDal.AddAsync(entity);
@@ -48,6 +51,7 @@ namespace RentACar.Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(await _carDal.GetCarDetailAsync());
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public async Task<IResult> UpdateAsync(Car entity)
         {
             await _carDal.UpdateAsync(entity);

@@ -1,4 +1,7 @@
 ﻿using RentACar.Business.Abstract;
+using RentACar.Business.ValidationRules.FluentValidation;
+using RentACar.Core.Aspects.Autofac.Validation;
+using RentACar.Core.CrossCuttingConcerns.Validation;
 using RentACar.Core.DataAccess;
 using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Core.Utilities.Results.Concrete;
@@ -20,6 +23,7 @@ namespace RentACar.Business.Concrete
             _colorDal = colorDal;
         }
 
+        [ValidationAspect(typeof(ColorValidator))]
         public async Task<IResult> AddAsync(Color entity)
         {
             await _colorDal.AddAsync(entity);
@@ -42,6 +46,7 @@ namespace RentACar.Business.Concrete
             return new SuccessDataResult<Color>(await _colorDal.GetByIdAsync(id));
         }
 
+        [ValidationAspect(typeof(ColorValidator))]
         public async Task<IResult> UpdateAsync(Color entity)
         {
             await _colorDal.UpdateAsync(entity);
