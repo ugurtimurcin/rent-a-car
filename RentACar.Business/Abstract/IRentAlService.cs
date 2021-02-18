@@ -1,5 +1,4 @@
-﻿using RentACar.Core.Business;
-using RentACar.Core.Utilities.Results.Abstract;
+﻿using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
@@ -10,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.Abstract
 {
-    public interface IRentalService : IGenericService<Rental>
+    public interface IRentalService
     {
+        Task<IDataResult<Rental>> GetByIdAsync(int id);
+        Task<IDataResult<IEnumerable<Rental>>> GetAllAsync();
+        Task<IResult> AddAsync(Rental entity);
+        Task<IResult> DeleteAsync(Rental entity);
+        Task<IResult> UpdateAsync(Rental entity);
         Task<IDataResult<RentalDetailDto>> GetRentalDetailByIdAsync(int id);
         Task<IDataResult<List<RentalDetailDto>>> GetRentalsDetailAsync();
     }

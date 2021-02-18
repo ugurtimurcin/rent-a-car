@@ -1,5 +1,8 @@
 ﻿using RentACar.Business.Abstract;
 using RentACar.Core.DataAccess;
+using RentACar.Core.Utilities.Results.Abstract;
+using RentACar.Core.Utilities.Results.Concrete;
+using RentACar.DataAccess.Abstract;
 using RentACar.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,11 +12,40 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.Concrete
 {
-    public class BrandManager : GenericManager<Brand>, IBrandService
+    public class BrandManager : IBrandService
     {
-        public BrandManager(IEntityRepository<Brand> entityRepository) : base(entityRepository)
+        private readonly IBrandDal _brandDal;
+        public BrandManager(IBrandDal brandDal)
         {
+            _brandDal = brandDal;
+        }
 
+        public async Task<IResult> AddAsync(Brand entity)
+        {
+            await _brandDal.AddAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> DeleteAsync(Brand entity)
+        {
+            await _brandDal.DeleteAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IDataResult<IEnumerable<Brand>>> GetAllAsync()
+        {
+            return new SuccessDataResult<IEnumerable<Brand>>(await _brandDal.GetAllAsync());
+        }
+
+        public async Task<IDataResult<Brand>> GetByIdAsync(int id)
+        {
+            return new SuccessDataResult<Brand>(await _brandDal.GetByIdAsync(id));
+        }
+
+        public async Task<IResult> UpdateAsync(Brand entity)
+        {
+            await _brandDal.UpdateAsync(entity);
+            return new SuccessResult();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using RentACar.Business.Abstract;
-using RentACar.Core.Business;
 using RentACar.Core.DataAccess;
+using RentACar.Core.Utilities.Results.Abstract;
+using RentACar.Core.Utilities.Results.Concrete;
+using RentACar.DataAccess.Abstract;
 using RentACar.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,40 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.Concrete
 {
-    public class ColorManager : GenericManager<Color>, IColorService
+    public class ColorManager : IColorService
     {
-        //private readonly IEntityRepository<Color> _entityRepository;
-        public ColorManager(IEntityRepository<Color> entityRepository) : base(entityRepository)
+        private readonly IColorDal _colorDal;
+        public ColorManager(IColorDal colorDal)
         {
-            
+            _colorDal = colorDal;
+        }
+
+        public async Task<IResult> AddAsync(Color entity)
+        {
+            await _colorDal.AddAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> DeleteAsync(Color entity)
+        {
+            await _colorDal.DeleteAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IDataResult<IEnumerable<Color>>> GetAllAsync()
+        {
+            return new SuccessDataResult<IEnumerable<Color>>(await _colorDal.GetAllAsync());
+        }
+
+        public async Task<IDataResult<Color>> GetByIdAsync(int id)
+        {
+            return new SuccessDataResult<Color>(await _colorDal.GetByIdAsync(id));
+        }
+
+        public async Task<IResult> UpdateAsync(Color entity)
+        {
+            await _colorDal.UpdateAsync(entity);
+            return new SuccessResult();
         }
     }
 }

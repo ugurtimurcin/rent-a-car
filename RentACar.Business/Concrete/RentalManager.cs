@@ -13,12 +13,34 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.Concrete
 {
-    public class RentalManager : GenericManager<Rental>, IRentalService
+    public class RentalManager : IRentalService
     {
         private readonly IRentalDal _rentalDal;
-        public RentalManager(IEntityRepository<Rental> entityRepository, IRentalDal rentalDal) : base(entityRepository)
+        public RentalManager(IRentalDal rentalDal)
         {
             _rentalDal = rentalDal;
+        }
+
+        public async Task<IResult> AddAsync(Rental entity)
+        {
+            await _rentalDal.AddAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> DeleteAsync(Rental entity)
+        {
+            await _rentalDal.DeleteAsync(entity);
+            return new SuccessResult();
+        }
+
+        public async Task<IDataResult<IEnumerable<Rental>>> GetAllAsync()
+        {
+            return new SuccessDataResult<IEnumerable<Rental>>(await _rentalDal.GetAllAsync());
+        }
+
+        public async Task<IDataResult<Rental>> GetByIdAsync(int id)
+        {
+            return new SuccessDataResult<Rental>(await _rentalDal.GetByIdAsync(id));
         }
 
         public async Task<IDataResult<RentalDetailDto>> GetRentalDetailByIdAsync(int id)
@@ -29,6 +51,12 @@ namespace RentACar.Business.Concrete
         public async Task<IDataResult<List<RentalDetailDto>>> GetRentalsDetailAsync()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(await _rentalDal.GetRentalsDetailAsync());
+        }
+
+        public async Task<IResult> UpdateAsync(Rental entity)
+        {
+            await _rentalDal.UpdateAsync(entity);
+            return new SuccessResult();
         }
     }
 }

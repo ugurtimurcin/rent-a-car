@@ -1,5 +1,4 @@
-﻿using RentACar.Core.Business;
-using RentACar.Core.Utilities.Results.Abstract;
+﻿using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
@@ -10,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.Abstract
 {
-    public interface ICarService : IGenericService<Car>
+    public interface ICarService
     {
+        Task<IDataResult<Car>> GetByIdAsync(int id);
+        Task<IDataResult<IEnumerable<Car>>> GetAllAsync();
+        Task<IResult> AddAsync(Car entity);
+        Task<IResult> DeleteAsync(Car entity);
+        Task<IResult> UpdateAsync(Car entity);
         Task<IDataResult<List<CarDetailDto>>> GetCarDetailAsync();
     }
 }
