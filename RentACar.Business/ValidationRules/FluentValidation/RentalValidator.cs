@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace RentACar.Business.ValidationRules.FluentValidation
 {
-    public class RentalAddValidator : AbstractValidator<RentalAddDto>
+    public class RentalValidator : AbstractValidator<Rental>
     {
-        public RentalAddValidator()
+        public RentalValidator()
         {
-            RuleFor(x => x.RentDate).NotEmpty().WithMessage("Chose rent date");
-            RuleFor(x => x.ReturnDate).NotEmpty().WithMessage("Chose return date");
+            RuleFor(x => x.RentDate).NotEmpty();
+            RuleFor(x => x.ReturnDate).NotEmpty();
             RuleFor(x => x.CarId).NotEmpty().WithMessage("Chose a car").InclusiveBetween(0, int.MaxValue);
         }
     }
