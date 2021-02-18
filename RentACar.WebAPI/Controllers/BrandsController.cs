@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RentACar.Core.Business;
+using RentACar.Business.Abstract;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RentACar.WebAPI.Controllers
@@ -15,18 +12,18 @@ namespace RentACar.WebAPI.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
-        private readonly IGenericService<Brand> _genericService;
+        private readonly IBrandService _brandService;
         private readonly IMapper _mapper;
-        public BrandsController(IGenericService<Brand> genericService, IMapper mapper)
+        public BrandsController(IBrandService brandService, IMapper mapper)
         {
-            _genericService = genericService;
+            _brandService = brandService;
             _mapper = mapper;
         }
 
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _genericService.GetAllAsync();
+            var result = await _brandService.GetAllAsync();
             if (result.Success)
             {
                 return Ok(_mapper.Map<List<BrandDto>>(result.Data));
@@ -37,7 +34,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpGet("getbyid")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _genericService.GetByIdAsync(id);
+            var result = await _brandService.GetByIdAsync(id);
             if (result.Success)
             {
                 return Ok(_mapper.Map<BrandDto>(result.Data));
@@ -48,7 +45,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(BrandAddDto addDto)
         {
-            var result = await _genericService.AddAsync(_mapper.Map<Brand>(addDto));
+            var result = await _brandService.AddAsync(_mapper.Map<Brand>(addDto));
             if (result.Success)
             {
                 return Created("", result);
@@ -59,7 +56,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(BrandUpdateDto updateDto)
         {
-            var result = await _genericService.UpdateAsync(_mapper.Map<Brand>(updateDto));
+            var result = await _brandService.UpdateAsync(_mapper.Map<Brand>(updateDto));
             if (result.Success)
             {
                 return NoContent();
@@ -70,7 +67,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _genericService.DeleteAsync(new Brand { Id = id });
+            var result = await _brandService.DeleteAsync(new Brand { Id = id });
             if (result.Success)
             {
                 return NoContent();

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RentACar.Core.Business;
+using RentACar.Business.Abstract;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
@@ -15,18 +15,18 @@ namespace RentACar.WebAPI.Controllers
     [ApiController]
     public class ColorsController : ControllerBase
     {
-        private readonly IGenericService<Color> _genericService;
+        private readonly IColorService _colorService;
         private readonly IMapper _mapper;
-        public ColorsController(IGenericService<Color> genericService, IMapper mapper)
+        public ColorsController(IColorService colorService, IMapper mapper)
         {
-            _genericService = genericService;
+            _colorService = colorService;
             _mapper = mapper;
         }
 
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _genericService.GetAllAsync();
+            var result = await _colorService.GetAllAsync();
             if (result.Success)
             {
                 return Ok(_mapper.Map<List<ColorDto>>(result.Data));
@@ -37,7 +37,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpGet("getbyid")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _genericService.GetByIdAsync(id);
+            var result = await _colorService.GetByIdAsync(id);
             if (result.Success)
             {
                 return Ok(_mapper.Map<ColorDto>(result.Data));
@@ -48,7 +48,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(ColorAddDto addDto)
         {
-            var result = await _genericService.AddAsync(_mapper.Map<Color>(addDto));
+            var result = await _colorService.AddAsync(_mapper.Map<Color>(addDto));
             if (result.Success)
             {
                 return Created("", result);
@@ -59,7 +59,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(ColorUpdateDto updateDto)
         {
-            var result = await _genericService.UpdateAsync(_mapper.Map<Color>(updateDto));
+            var result = await _colorService.UpdateAsync(_mapper.Map<Color>(updateDto));
             if (result.Success)
             {
                 return NoContent();
@@ -70,7 +70,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _genericService.DeleteAsync(new Color { Id = id });
+            var result = await _colorService.DeleteAsync(new Color { Id = id });
             if (result.Success)
             {
                 return NoContent();

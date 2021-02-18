@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACar.Business.Abstract;
-using RentACar.Core.Business;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
@@ -16,12 +15,10 @@ namespace RentACar.WebAPI.Controllers
     [ApiController]
     public class RentalsController : ControllerBase
     {
-        private readonly IGenericService<Rental> _genericService;
         private readonly IRentalService _rentalService;
         private readonly IMapper _mapper;
-        public RentalsController(IGenericService<Rental> genericService, IRentalService rentalService, IMapper mapper)
+        public RentalsController(IRentalService rentalService, IMapper mapper)
         {
-            _genericService = genericService;
             _rentalService = rentalService;
             _mapper = mapper;
         }
@@ -29,7 +26,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _genericService.GetAllAsync();
+            var result = await _rentalService.GetAllAsync();
             
             if (result.Success)
             {
@@ -41,7 +38,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpGet("getbyid")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _genericService.GetByIdAsync(id);
+            var result = await _rentalService.GetByIdAsync(id);
             if (result.Success)
             {
                 return Ok(_mapper.Map<RentalDto>(result.Data));
@@ -74,7 +71,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(RentalAddDto addDto)
         {
-            var result = await _genericService.AddAsync(_mapper.Map<Rental>(addDto));
+            var result = await _rentalService.AddAsync(_mapper.Map<Rental>(addDto));
             if (result.Success)
             {
                 return Created("", result);
@@ -85,7 +82,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(RentalUpdateDto updateDto)
         {
-            var result = await _genericService.UpdateAsync(_mapper.Map<Rental>(updateDto));
+            var result = await _rentalService.UpdateAsync(_mapper.Map<Rental>(updateDto));
             if (result.Success)
             {
                 return NoContent();
@@ -96,7 +93,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _genericService.DeleteAsync(new Rental { Id = id });
+            var result = await _rentalService.DeleteAsync(new Rental { Id = id });
             if (result.Success)
             {
                 return NoContent();
