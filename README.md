@@ -44,13 +44,14 @@ The course was started on January 9 by Engin Demiroğ. From beginning until now 
 ### Data Access
 - This layer accesses the data. Entity Framework Core is used as ORM.
 ### Business Access
-- Containes business rules.
+- Contains business rules.
 
 ### Built With
 
 * [.Net 5](https://docs.microsoft.com/en-us/dotnet/core/dotnet-five)
 
 ### Packages
+<a href="https://autofac.org/">Autofac</a>
 <a href="https://automapper.org/">AutoMapper</a><br/>
 <a href="https://docs.microsoft.com/en-us/ef/core/">AutoMapper</a><br/>
 <a href="https://fluentvalidation.net/">Fluent Validation</a>
