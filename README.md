@@ -30,9 +30,9 @@
 
 [![Rent A Car][product-screenshot]](https://example.com)
 
-The course was started on January 9 by Engin Demiroğ. From beginning until now he teached a lot of things about software developing and still he is teaching. I've started to built this project with him, too. I think this project will be better after successfully finishing the course.
+The course was started on January 9 by Engin Demiroğ. From beginning until now he's teached a lot of things about software developing and still he is teaching. I've started to build this project with him. I think it will be better after successfully finishing the course.
 
-* The project is developed in accordance with N-layered architecture.
+* The project is developed in accordance with N-tier architecture.
 ### Entities Layer
 - Created for database objects, inherited from IEntity.
 -It also contains dtos. Data is transferred to the API with these classes.
