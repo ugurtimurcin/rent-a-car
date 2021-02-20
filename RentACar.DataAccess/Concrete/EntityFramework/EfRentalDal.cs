@@ -17,8 +17,10 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
         {
             using var context = new DataContext();
             var result = from r in context.Rentals.Where(x=>x.Id == id)
+                         join cus in context.Customers
+                         on r.CustomerId equals cus.Id
                          join a in context.AppUsers
-                         on r.AppUserId equals a.Id
+                         on cus.AppUserId equals a.Id
                          join c in context.Cars
                          on r.CarId equals c.Id
                          join col in context.Colors
@@ -34,12 +36,14 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              CarDescription = c.Description,
                              CarImage = c.CarImage,
                              CarModelYear = c.ModelYear,
+
+                             RentDate = r.RentDate,
+                             ReturnDate = r.ReturnDate,
+
                              Email = a.Email,
                              FirstName = a.FirstName,
                              LastName = a.LastName,
-                             RentDate = r.RentDate,
-                             ReturnDate = r.ReturnDate,
-                             UserName = a.UserName
+                             CompanyName = cus.CompanyName
                          };
 
             return await result.FirstOrDefaultAsync();
@@ -49,8 +53,10 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
         {
             using var context = new DataContext();
             var result = from r in context.Rentals
+                         join cus in context.Customers
+                         on r.CustomerId equals cus.Id
                          join a in context.AppUsers
-                         on r.AppUserId equals a.Id
+                         on cus.AppUserId equals a.Id
                          join c in context.Cars
                          on r.CarId equals c.Id
                          join col in context.Colors
@@ -66,12 +72,14 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              CarDescription = c.Description,
                              CarImage = c.CarImage,
                              CarModelYear = c.ModelYear,
+
+                             RentDate = r.RentDate,
+                             ReturnDate = r.ReturnDate,
+
                              Email = a.Email,
                              FirstName = a.FirstName,
                              LastName = a.LastName,
-                             RentDate = r.RentDate,
-                             ReturnDate = r.ReturnDate,
-                             UserName = a.UserName
+                             CompanyName = cus.CompanyName
                          };
 
             return await result.ToListAsync();
