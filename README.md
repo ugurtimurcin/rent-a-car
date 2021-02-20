@@ -28,7 +28,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Rent A Car][product-screenshot]](https://example.com)
+![rent-a-car-header](https://user-images.githubusercontent.com/57873947/108600863-6f11bc80-73aa-11eb-9ee7-42463daac1a4.jpg)
+
 
 The course was started on January 9 by Engin Demiroğ. From beginning until now he's teached a lot of things about software developing and still he is teaching. I've started to build this project with him. I think it will be better after successfully finishing the course.
 
