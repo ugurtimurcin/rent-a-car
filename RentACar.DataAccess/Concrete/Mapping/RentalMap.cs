@@ -16,9 +16,10 @@ namespace RentACar.DataAccess.Concrete.Mapping
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 
+
             builder.HasData(
-                new Rental { Id = 1, AppUserId = 1, CarId = 1, RentDate = new DateTime(2021, 2, 14), ReturnDate = new DateTime(2021, 2, 16) },
-                new Rental { Id = 2, AppUserId = 2, CarId = 2, RentDate = new DateTime(2021, 2, 16), ReturnDate = new DateTime(2021, 2, 19) }
+                new Rental { Id = 1, CustomerId=1, CarId = 1, RentDate = new DateTime(2021, 2, 14), ReturnDate = new DateTime(2021, 2, 16) },
+                new Rental { Id = 2, CustomerId =2, CarId = 2, RentDate = new DateTime(2021, 2, 16), ReturnDate = new DateTime(2021, 2, 19) }
                 );
         }
     }
