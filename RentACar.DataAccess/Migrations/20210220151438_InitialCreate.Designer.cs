@@ -10,7 +10,7 @@ using RentACar.DataAccess.Concrete;
 namespace RentACar.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210216114207_InitialCreate")]
+    [Migration("20210220151438_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,6 +214,43 @@ namespace RentACar.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RentACar.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = 1,
+                            CompanyName = "Oxir Co."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppUserId = 2,
+                            CompanyName = "Baran Co."
+                        });
+                });
+
             modelBuilder.Entity("RentACar.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
@@ -223,10 +260,10 @@ namespace RentACar.DataAccess.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AppUserId")
+                    b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CarId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RentDate")
@@ -237,9 +274,9 @@ namespace RentACar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CarId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Rentals");
 
@@ -247,16 +284,16 @@ namespace RentACar.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AppUserId = 1,
                             CarId = 1,
+                            CustomerId = 1,
                             RentDate = new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ReturnDate = new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            AppUserId = 2,
                             CarId = 2,
+                            CustomerId = 2,
                             RentDate = new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ReturnDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -281,7 +318,7 @@ namespace RentACar.DataAccess.Migrations
                     b.Navigation("Color");
                 });
 
-            modelBuilder.Entity("RentACar.Entities.Rental", b =>
+            modelBuilder.Entity("RentACar.Entities.Customer", b =>
                 {
                     b.HasOne("RentACar.Entities.AppUser", "AppUser")
                         .WithMany()
@@ -289,15 +326,26 @@ namespace RentACar.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("RentACar.Entities.Rental", b =>
+                {
                     b.HasOne("RentACar.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("RentACar.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Car");
+
+                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }
