@@ -21,6 +21,7 @@ namespace RentACar.DataAccess.Concrete
             modelBuilder.ApplyConfiguration(new AppUserMap());
             modelBuilder.ApplyConfiguration(new BrandMap());
             modelBuilder.ApplyConfiguration(new CarMap());
+            modelBuilder.ApplyConfiguration(new CustomerMap());
             modelBuilder.ApplyConfiguration(new ColorMap());
             modelBuilder.ApplyConfiguration(new RentalMap());
         }
@@ -30,5 +31,6 @@ namespace RentACar.DataAccess.Concrete
         public DbSet<Car> Cars { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }
