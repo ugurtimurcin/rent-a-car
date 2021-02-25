@@ -77,7 +77,6 @@ namespace RentACar.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ModelYear = table.Column<int>(type: "int", nullable: false),
-                    CarImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DailyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "varchar(max)", nullable: false),
                     ColorId = table.Column<int>(type: "int", nullable: false),
@@ -96,6 +95,27 @@ namespace RentACar.DataAccess.Migrations
                         name: "FK_Cars_Colors_ColorId",
                         column: x => x.ColorId,
                         principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarImage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CarId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarImage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarImage_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,12 +179,12 @@ namespace RentACar.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "BrandId", "CarImage", "ColorId", "DailyPrice", "Description", "ModelYear" },
+                columns: new[] { "Id", "BrandId", "ColorId", "DailyPrice", "Description", "ModelYear" },
                 values: new object[,]
                 {
-                    { 1, 1, null, 1, 350m, "perfect", 2019 },
-                    { 2, 3, null, 2, 400m, "perfect", 2020 },
-                    { 3, 3, null, 3, 200m, "perfect", 2021 }
+                    { 1, 1, 1, 350m, "perfect", 2019 },
+                    { 2, 3, 2, 400m, "perfect", 2020 },
+                    { 3, 3, 3, 200m, "perfect", 2021 }
                 });
 
             migrationBuilder.InsertData(
@@ -185,6 +205,11 @@ namespace RentACar.DataAccess.Migrations
                 table: "Rentals",
                 columns: new[] { "Id", "CarId", "CustomerId", "RentDate", "ReturnDate" },
                 values: new object[] { 2, 2, 2, new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarImage_CarId",
+                table: "CarImage",
+                column: "CarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_BrandId",
@@ -215,6 +240,9 @@ namespace RentACar.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CarImage");
+
             migrationBuilder.DropTable(
                 name: "Rentals");
 

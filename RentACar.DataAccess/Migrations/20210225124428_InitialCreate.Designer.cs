@@ -10,7 +10,7 @@ using RentACar.DataAccess.Concrete;
 namespace RentACar.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210220151438_InitialCreate")]
+    [Migration("20210225124428_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,9 +124,6 @@ namespace RentACar.DataAccess.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CarImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
@@ -176,6 +173,29 @@ namespace RentACar.DataAccess.Migrations
                             Description = "perfect",
                             ModelYear = 2021
                         });
+                });
+
+            modelBuilder.Entity("RentACar.Entities.CarImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarImage");
                 });
 
             modelBuilder.Entity("RentACar.Entities.Color", b =>
@@ -318,6 +338,17 @@ namespace RentACar.DataAccess.Migrations
                     b.Navigation("Color");
                 });
 
+            modelBuilder.Entity("RentACar.Entities.CarImage", b =>
+                {
+                    b.HasOne("RentACar.Entities.Car", "Car")
+                        .WithMany("CarImages")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("RentACar.Entities.Customer", b =>
                 {
                     b.HasOne("RentACar.Entities.AppUser", "AppUser")
@@ -346,6 +377,11 @@ namespace RentACar.DataAccess.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("RentACar.Entities.Car", b =>
+                {
+                    b.Navigation("CarImages");
                 });
 #pragma warning restore 612, 618
         }
