@@ -10,7 +10,6 @@ namespace RentACar.Entities.DTOs
     public class CarAddDto : IDto
     {
         public int ModelYear { get; set; }
-        public string CarImage { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
 
