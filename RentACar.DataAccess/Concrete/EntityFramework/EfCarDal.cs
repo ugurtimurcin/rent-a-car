@@ -27,7 +27,6 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              Id = c.Id,
                              Brand = b.Name,
                              Color = col.Name,
-                             CarImage = c.CarImage,
                              DailyPrice = c.DailyPrice,
                              Description = c.Description,
                              ModelYear = c.ModelYear

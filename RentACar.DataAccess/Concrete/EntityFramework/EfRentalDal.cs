@@ -34,7 +34,6 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              CarColor = col.Name,
                              CarDailyPrice = c.DailyPrice,
                              CarDescription = c.Description,
-                             CarImage = c.CarImage,
                              CarModelYear = c.ModelYear,
 
                              RentDate = r.RentDate,
@@ -70,7 +69,6 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              CarColor = col.Name,
                              CarDailyPrice = c.DailyPrice,
                              CarDescription = c.Description,
-                             CarImage = c.CarImage,
                              CarModelYear = c.ModelYear,
 
                              RentDate = r.RentDate,
