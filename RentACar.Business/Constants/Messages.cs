@@ -11,7 +11,6 @@ namespace RentACar.Business.Constants
         public static string Added = "Added!";
         public static string Removed = "Removed!";
         public static string Updated = "Updated!";
-
-
+        public static string CarHasMoreThan5ImagesError = "There should not be more than 5 images of the car";
     }
 }
