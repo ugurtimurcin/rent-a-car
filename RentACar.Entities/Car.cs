@@ -11,7 +11,6 @@ namespace RentACar.Entities
     {
         public int Id { get; set; }
         public int ModelYear { get; set; }
-        public string CarImage { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
 
@@ -20,5 +19,7 @@ namespace RentACar.Entities
 
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
+
+        public List<CarImage> CarImages { get; set; }
     }
 }
