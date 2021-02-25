@@ -28,11 +28,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Rent A Car][product-screenshot]](https://example.com)
+![rent-a-car-header](https://user-images.githubusercontent.com/57873947/108600863-6f11bc80-73aa-11eb-9ee7-42463daac1a4.jpg)
 
-The course was started on January 9 by Engin Demiroğ. From beginning until now he teached a lot of things about software developing and still he is teaching. I've started to built this project with him, too. I think this project will be better after successfully finishing the course.
 
-* The project is developed in accordance with N-layered architecture.
+The course was started on January 9 by Engin Demiroğ. From beginning until now he's teached a lot of things about software developing and still he is teaching. I've started to build this project with him. I think it will be better after successfully finishing the course.
+
+* The project is developed in accordance with N-tier architecture.
 ### Entities Layer
 - Created for database objects, inherited from IEntity.
 -It also contains dtos. Data is transferred to the API with these classes.
@@ -43,13 +44,14 @@ The course was started on January 9 by Engin Demiroğ. From beginning until now 
 ### Data Access
 - This layer accesses the data. Entity Framework Core is used as ORM.
 ### Business Access
-- Containes business rules.
+- Contains business rules.
 
 ### Built With
 
 * [.Net 5](https://docs.microsoft.com/en-us/dotnet/core/dotnet-five)
 
 ### Packages
+<a href="https://autofac.org/">Autofac</a>
 <a href="https://automapper.org/">AutoMapper</a><br/>
 <a href="https://docs.microsoft.com/en-us/ef/core/">AutoMapper</a><br/>
 <a href="https://fluentvalidation.net/">Fluent Validation</a>
