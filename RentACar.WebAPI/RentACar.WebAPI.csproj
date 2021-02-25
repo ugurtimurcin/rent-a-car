@@ -14,4 +14,8 @@
     <ProjectReference Include="..\RentACar.Business\RentACar.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\carImages\" />
+  </ItemGroup>
+
 </Project>

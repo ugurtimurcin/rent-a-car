@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
+using RentACar.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,13 @@ namespace RentACar.WebAPI.Mapping.AutoMapperProfile
 
             CreateMap<RentalUpdateDto, Rental>();
             CreateMap<Rental, RentalUpdateDto>();
+
+            CreateMap<CarImageAddModel, CarImage>();
+            CreateMap<CarImage, CarImageAddModel>();
+
+            CreateMap<CarImageUpdateModel, CarImage>();
+            CreateMap<CarImage, CarImageUpdateModel>();
+
 
 
         }
