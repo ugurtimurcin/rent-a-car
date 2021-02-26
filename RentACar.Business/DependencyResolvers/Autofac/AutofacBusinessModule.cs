@@ -3,6 +3,8 @@ using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
 using RentACar.Business.Abstract;
 using RentACar.Business.Concrete;
+using RentACar.Core.Utilities.Helpers.FileHelper.Abstract;
+using RentACar.Core.Utilities.Helpers.FileHelper.Concrete;
 using RentACar.DataAccess.Abstract;
 using RentACar.DataAccess.Concrete.EntityFramework;
 using System;
@@ -36,6 +38,8 @@ namespace RentACar.Business.DependencyResolvers.Autofac
             builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
 
+            builder.RegisterType<ImageProcess>().As<IImageProcess>().SingleInstance();
+            
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

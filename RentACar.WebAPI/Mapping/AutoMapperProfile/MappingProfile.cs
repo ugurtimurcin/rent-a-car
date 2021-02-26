@@ -64,8 +64,9 @@ namespace RentACar.WebAPI.Mapping.AutoMapperProfile
             CreateMap<RentalUpdateDto, Rental>();
             CreateMap<Rental, RentalUpdateDto>();
 
-            CreateMap<CarImageAddModel, CarImage>();
-            CreateMap<CarImage, CarImageAddModel>();
+            
+
+            CreateMap<CarImageDto, CarImage>().ReverseMap();
 
             CreateMap<CarImageUpdateModel, CarImage>();
             CreateMap<CarImage, CarImageUpdateModel>();

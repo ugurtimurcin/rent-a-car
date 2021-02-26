@@ -26,17 +26,9 @@ namespace RentACar.WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromForm]CarImageAddModel add)
+        public async Task<IActionResult> Add([FromForm] CarImageDto imageDto, IFormFile file)
         {
-            if (add.Image != null)
-            {
-                var picName = Guid.NewGuid() + Path.GetExtension(add.Image.FileName);
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/carImages/" + picName);
-                using var stream = new FileStream(path, FileMode.Create);
-                await add.Image.CopyToAsync(stream);
-                add.ImagePath = picName;
-            }
-            var result = await _carImageService.AddAsync(_mapper.Map<CarImage>(add));
+            var result = await _carImageService.AddAsync(_mapper.Map<CarImage>(imageDto), file);
             if (result.Success)
             {
                 return Created("", result);

@@ -1,6 +1,8 @@
-﻿using RentACar.Business.Abstract;
+﻿using Microsoft.AspNetCore.Http;
+using RentACar.Business.Abstract;
 using RentACar.Business.Constants;
 using RentACar.Core.Utilities.Business;
+using RentACar.Core.Utilities.Helpers.FileHelper.Abstract;
 using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Core.Utilities.Results.Concrete;
 using RentACar.DataAccess.Abstract;
@@ -16,20 +18,24 @@ namespace RentACar.Business.Concrete
     public class CarImageManager : ICarImageService
     {
         private readonly ICarImageDal _carImageDal;
-        private readonly ICarService _carService;
-        public CarImageManager(ICarImageDal carImageDal)
+        private readonly IImageProcess _imageProcess;
+        public CarImageManager(ICarImageDal carImageDal, IImageProcess imageProcess)
         {
             _carImageDal = carImageDal;
+            _imageProcess = imageProcess;
         }
-        public async Task<IResult> AddAsync(CarImage entity)
+        public async Task<IResult> AddAsync(CarImage entity, IFormFile file)
         {
+            BusinessRules.Run(CheckCarImageLimit(entity.CarId).Result);
+            await _imageProcess.UploadAsync(entity.ImagePath, file);
+
             await _carImageDal.AddAsync(entity);
             return new SuccessResult();
         }
 
         public async Task<IResult> DeleteAsync(CarImage entity)
         {
-            BusinessRules.Run(IfCarHasMoreThanFiveImages(entity.CarId).Result);
+            _imageProcess.Delete(entity.ImagePath);
             await _carImageDal.DeleteAsync(entity);
             return new SuccessResult();
         }
@@ -47,14 +53,15 @@ namespace RentACar.Business.Concrete
         public async Task<IResult> UpdateAsync(CarImage entity)
         {
             await _carImageDal.DeleteAsync(entity);
+            _imageProcess.Delete(entity.ImagePath);
             return new SuccessResult();
         }
 
 
-        private async Task<IResult> IfCarHasMoreThanFiveImages(int id)
+        private async Task<IResult> CheckCarImageLimit(int id)
         {
-            var car = await _carService.GetByIdAsync(id);
-            if (car.Data.CarImages.Count>5)
+            var car = await _carImageDal.GetAllAsync(x=>x.Id == id);
+            if (car.Count()>5)
             {
                 return new ErrorResult(Messages.CarHasMoreThan5ImagesError);
             }

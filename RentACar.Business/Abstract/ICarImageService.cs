@@ -1,4 +1,5 @@
-﻿using RentACar.Core.Utilities.Results.Abstract;
+﻿using Microsoft.AspNetCore.Http;
+using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace RentACar.Business.Abstract
     {
         Task<IDataResult<CarImage>> GetByIdAsync(int id);
         Task<IDataResult<IEnumerable<CarImage>>> GetAllAsync();
-        Task<IResult> AddAsync(CarImage entity);
+        Task<IResult> AddAsync(CarImage entity, IFormFile file);
         Task<IResult> DeleteAsync(CarImage entity);
         Task<IResult> UpdateAsync(CarImage entity);
     }
