@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using RentACar.Business.Abstract;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
-using RentACar.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,20 +36,12 @@ namespace RentACar.WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromForm]CarImageUpdateModel update)
+        public async Task<IActionResult> Update([FromForm]CarImageDto imageDto, IFormFile file)
         {
-            if (update.Image != null)
-            {
-                var picName = Guid.NewGuid() + Path.GetExtension(update.Image.FileName);
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/carImages/" + picName);
-                using var stream = new FileStream(path, FileMode.Create);
-                await update.Image.CopyToAsync(stream);
-                update.ImagePath = picName;
-            }
-            var result = await _carImageService.UpdateAsync(_mapper.Map<CarImage>(update));
+            var result = await _carImageService.UpdateAsync(_mapper.Map<CarImage>(imageDto), file);
             if (result.Success)
             {
-                return NoContent();
+                return Created("", result);
             }
             return BadRequest();
         }
@@ -58,7 +49,8 @@ namespace RentACar.WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _carImageService.DeleteAsync(new CarImage { Id = id });
+            var carImage = await _carImageService.GetByIdAsync(id);
+            var result = await _carImageService.DeleteAsync(carImage.Data);
             if (result.Success)
             {
                 return NoContent();

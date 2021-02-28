@@ -9,6 +9,7 @@ using RentACar.DataAccess.Abstract;
 using RentACar.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,14 @@ namespace RentACar.Business.Concrete
         }
         public async Task<IResult> AddAsync(CarImage entity, IFormFile file)
         {
-            BusinessRules.Run(CheckCarImageLimit(entity.CarId).Result);
+            var result = BusinessRules.Run(await CheckCarImageLimit(entity.CarId));
+            if (result != null)
+            {
+                return result;
+            }
+
+            entity.ImagePath = Guid.NewGuid() + Path.GetExtension(file.FileName);
+
             await _imageProcess.UploadAsync(entity.ImagePath, file);
 
             await _carImageDal.AddAsync(entity);
@@ -50,9 +58,14 @@ namespace RentACar.Business.Concrete
             return new SuccessDataResult<CarImage>(await _carImageDal.GetByIdAsync(id));
         }
 
-        public async Task<IResult> UpdateAsync(CarImage entity)
+        public async Task<IResult> UpdateAsync(CarImage entity, IFormFile file)
         {
-            await _carImageDal.DeleteAsync(entity);
+            entity.ImagePath = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            
+            await _imageProcess.UploadAsync(entity.ImagePath, file);
+            
+            await _carImageDal.UpdateAsync(entity);
+            
             _imageProcess.Delete(entity.ImagePath);
             return new SuccessResult();
         }
@@ -60,7 +73,8 @@ namespace RentACar.Business.Concrete
 
         private async Task<IResult> CheckCarImageLimit(int id)
         {
-            var car = await _carImageDal.GetAllAsync(x=>x.Id == id);
+            var car = await _carImageDal.GetAllAsync(x=>x.CarId == id);
+            var num = car.Count();
             if (car.Count()>5)
             {
                 return new ErrorResult(Messages.CarHasMoreThan5ImagesError);

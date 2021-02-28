@@ -1,20 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RentACar.Core.Utilities.Helpers.FileHelper.Abstract;
+using RentACar.Core.Utilities.Results.Abstract;
+using RentACar.Core.Utilities.Results.Concrete;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RentACar.Core.Utilities.Helpers.FileHelper.Concrete
 {
-    public class ImageProcess : FileProcesses, IImageProcess
+    public class ImageProcess : IImageProcess
     {
-        private readonly string imageFolder = "wwwroot/CarImages";
-        public override Task UploadAsync(string folderName, IFormFile file)
+        public void Delete(string path)
         {
-            folderName = imageFolder;
-            return base.UploadAsync(folderName, file);
+            var file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
+
+        public async Task UploadAsync(string fileName, IFormFile file)
+        {
+            var newFileName = fileName + Path.GetExtension(file.FileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CarImages/" + newFileName);
+
+            using var stream = new FileStream(path, FileMode.Create);
+
+            await file.CopyToAsync(stream);
         }
     }
 }
