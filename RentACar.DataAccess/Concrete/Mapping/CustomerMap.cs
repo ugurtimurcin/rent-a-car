@@ -15,14 +15,9 @@ namespace RentACar.DataAccess.Concrete.Mapping
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasIndex(x => x.AppUserId).IsUnique();
+            builder.HasIndex(x => x.UserId).IsUnique();
 
             builder.Property(x => x.CompanyName).HasMaxLength(75).IsRequired();
-
-            builder.HasData(
-                new Customer { Id = 1, CompanyName="Oxir Co.", AppUserId = 1},
-                new Customer { Id = 2, CompanyName="Baran Co.", AppUserId = 2}
-                );
         }
     }
 }
