@@ -43,7 +43,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IDataResult<Rental>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<Rental>(await _rentalDal.GetByIdAsync(id));
+            return new SuccessDataResult<Rental>(await _rentalDal.GetAsync(x=>x.Id == id));
         }
 
         public async Task<IDataResult<RentalDetailDto>> GetRentalDetailByIdAsync(int id)

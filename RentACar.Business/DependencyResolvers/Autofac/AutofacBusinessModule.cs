@@ -20,8 +20,8 @@ namespace RentACar.Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<AppUserManager>().As<IAppUserService>().SingleInstance();
-            builder.RegisterType<EfAppUserDal>().As<IAppUserDal>().SingleInstance();
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
 
             builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();

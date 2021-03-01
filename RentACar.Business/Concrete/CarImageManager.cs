@@ -55,7 +55,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IDataResult<CarImage>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<CarImage>(await _carImageDal.GetByIdAsync(id));
+            return new SuccessDataResult<CarImage>(await _carImageDal.GetAsync(x=>x.Id == id));
         }
 
         public async Task<IResult> UpdateAsync(CarImage entity, IFormFile file)

@@ -10,7 +10,7 @@ namespace RentACar.Core.DataAccess
 {
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetAsync(Expression<Func<T, bool>>predicete);
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);
         Task AddAsync(T entity);
         Task DeleteAsync(T entity);

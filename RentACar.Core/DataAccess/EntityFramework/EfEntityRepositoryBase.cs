@@ -31,12 +31,11 @@ namespace RentACar.Core.DataAccess.EntityFramework
             return predicate == null ? await context.Set<T>().ToListAsync() : await context.Set<T>().Where(predicate).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicete)
         {
-            using var context = new TContext();
-            return await context.Set<T>().FindAsync(id);
+            using TContext context = new TContext();
+            return await context.Set<T>().SingleOrDefaultAsync(predicete);
         }
-
         public async Task UpdateAsync(T entity)
         {
             using var context = new TContext();

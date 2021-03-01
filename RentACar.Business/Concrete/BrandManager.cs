@@ -42,7 +42,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IDataResult<Brand>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<Brand>(await _brandDal.GetByIdAsync(id));
+            return new SuccessDataResult<Brand>(await _brandDal.GetAsync(x=>x.Id == id));
         }
 
         [ValidationAspect(typeof(BrandValidator))]

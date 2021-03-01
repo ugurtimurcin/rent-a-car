@@ -13,9 +13,9 @@ namespace RentACar.WebAPI.Controllers
     [ApiController]
     public class AppUsersController : ControllerBase
     {
-        private readonly IAppUserService _appUserService;
+        private readonly IUserService _appUserService;
         private readonly IMapper _mapper;
-        public AppUsersController(IAppUserService appUserService, IMapper mapper)
+        public AppUsersController(IUserService appUserService, IMapper mapper)
         {
             _appUserService = appUserService;
             _mapper = mapper;
@@ -26,7 +26,7 @@ namespace RentACar.WebAPI.Controllers
             var result = await _appUserService.GetAllAsync();
             if (result.Success)
             {
-                return Ok(_mapper.Map<List<AppUserDto>>(result.Data));
+                return Ok(_mapper.Map<List<UserDto>>(result.Data));
             }
             return BadRequest(result);
         }
@@ -37,13 +37,13 @@ namespace RentACar.WebAPI.Controllers
             var result = await _appUserService.GetByIdAsync(id);
             if (result.Success)
             {
-                return Ok(_mapper.Map<AppUserDto>(result.Data));
+                return Ok(_mapper.Map<UserDto>(result.Data));
             }
             return BadRequest(result);
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(AppUserAddDto addDto)
+        public async Task<IActionResult> Add(UserAddDto addDto)
         {
             var result = await _appUserService.AddAsync(_mapper.Map<User>(addDto));
             if (result.Success)
@@ -54,7 +54,7 @@ namespace RentACar.WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(AppUserUpdateDto updateDto)
+        public async Task<IActionResult> Update(UserUpdateDto updateDto)
         {
             var result = await _appUserService.UpdateAsync(_mapper.Map<User>(updateDto));
             if (result.Success)

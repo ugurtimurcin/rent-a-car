@@ -43,7 +43,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IDataResult<Car>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<Car>(await _carDal.GetByIdAsync(id));
+            return new SuccessDataResult<Car>(await _carDal.GetAsync(x=>x.Id == id));
         }
 
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailAsync()

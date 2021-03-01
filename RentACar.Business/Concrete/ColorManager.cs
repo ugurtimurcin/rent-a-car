@@ -43,7 +43,7 @@ namespace RentACar.Business.Concrete
 
         public async Task<IDataResult<Color>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<Color>(await _colorDal.GetByIdAsync(id));
+            return new SuccessDataResult<Color>(await _colorDal.GetAsync(x=>x.Id == id));
         }
 
         [ValidationAspect(typeof(ColorValidator))]

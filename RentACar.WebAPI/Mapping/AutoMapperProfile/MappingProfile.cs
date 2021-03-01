@@ -13,9 +13,9 @@ namespace RentACar.WebAPI.Mapping.AutoMapperProfile
     {
         public MappingProfile()
         {
-            CreateMap<AppUserDto, User>().ReverseMap();
-            CreateMap<AppUserAddDto, User>().ReverseMap();
-            CreateMap<AppUserUpdateDto, User>().ReverseMap();
+            CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<UserAddDto, User>().ReverseMap();
+            CreateMap<UserUpdateDto, User>().ReverseMap();
 
             CreateMap<ColorDto, Color>().ReverseMap();
             CreateMap<ColorAddDto, Color>().ReverseMap();
