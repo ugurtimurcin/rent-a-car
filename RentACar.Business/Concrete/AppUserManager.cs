@@ -2,6 +2,7 @@
 using RentACar.Business.ValidationRules.FluentValidation;
 using RentACar.Core.Aspects.Autofac.Validation;
 using RentACar.Core.DataAccess;
+using RentACar.Core.Entities.Concrete;
 using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Core.Utilities.Results.Concrete;
 using RentACar.DataAccess.Abstract;
@@ -23,30 +24,30 @@ namespace RentACar.Business.Concrete
         }
 
         [ValidationAspect(typeof(AppUserValidator))]
-        public async Task<IResult> AddAsync(AppUser entity)
+        public async Task<IResult> AddAsync(User entity)
         {
             await _appUserDal.AddAsync(entity);
             return new SuccessResult();
         }
 
-        public async Task<IResult> DeleteAsync(AppUser entity)
+        public async Task<IResult> DeleteAsync(User entity)
         {
             await _appUserDal.DeleteAsync(entity);
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<IEnumerable<AppUser>>> GetAllAsync()
+        public async Task<IDataResult<IEnumerable<User>>> GetAllAsync()
         {
-            return new SuccessDataResult<IEnumerable<AppUser>>(await _appUserDal.GetAllAsync());
+            return new SuccessDataResult<IEnumerable<User>>(await _appUserDal.GetAllAsync());
         }
 
-        public async Task<IDataResult<AppUser>> GetByIdAsync(int id)
+        public async Task<IDataResult<User>> GetByIdAsync(int id)
         {
-            return new SuccessDataResult<AppUser>(await _appUserDal.GetByIdAsync(id));
+            return new SuccessDataResult<User>(await _appUserDal.GetByIdAsync(id));
         }
 
         [ValidationAspect(typeof(AppUserValidator))]
-        public async Task<IResult> UpdateAsync(AppUser entity)
+        public async Task<IResult> UpdateAsync(User entity)
         {
             await _appUserDal.UpdateAsync(entity);
             return new SuccessResult();

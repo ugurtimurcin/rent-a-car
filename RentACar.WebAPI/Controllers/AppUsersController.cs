@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RentACar.Business.Abstract;
+using RentACar.Core.Entities.Concrete;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(AppUserAddDto addDto)
         {
-            var result = await _appUserService.AddAsync(_mapper.Map<AppUser>(addDto));
+            var result = await _appUserService.AddAsync(_mapper.Map<User>(addDto));
             if (result.Success)
             {
                 return Created("", result);
@@ -55,7 +56,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(AppUserUpdateDto updateDto)
         {
-            var result = await _appUserService.UpdateAsync(_mapper.Map<AppUser>(updateDto));
+            var result = await _appUserService.UpdateAsync(_mapper.Map<User>(updateDto));
             if (result.Success)
             {
                 return NoContent();
@@ -66,7 +67,7 @@ namespace RentACar.WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _appUserService.DeleteAsync(new AppUser { Id = id });
+            var result = await _appUserService.DeleteAsync(new User { Id = id });
             if (result.Success)
             {
                 return NoContent();

@@ -19,8 +19,8 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
             var result = from r in context.Rentals.Where(x=>x.Id == id)
                          join cus in context.Customers
                          on r.CustomerId equals cus.Id
-                         join a in context.AppUsers
-                         on cus.AppUserId equals a.Id
+                         join a in context.Users
+                         on cus.UserId equals a.Id
                          join c in context.Cars
                          on r.CarId equals c.Id
                          join col in context.Colors
@@ -54,8 +54,8 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
             var result = from r in context.Rentals
                          join cus in context.Customers
                          on r.CustomerId equals cus.Id
-                         join a in context.AppUsers
-                         on cus.AppUserId equals a.Id
+                         join a in context.Users
+                         on cus.UserId equals a.Id
                          join c in context.Cars
                          on r.CarId equals c.Id
                          join col in context.Colors
