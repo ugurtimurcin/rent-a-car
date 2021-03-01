@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RentACar.Core.Entities.Concrete;
 using RentACar.Entities;
 using RentACar.Entities.DTOs;
 using System;
@@ -12,58 +13,25 @@ namespace RentACar.WebAPI.Mapping.AutoMapperProfile
     {
         public MappingProfile()
         {
+            CreateMap<AppUserDto, User>().ReverseMap();
+            CreateMap<AppUserAddDto, User>().ReverseMap();
+            CreateMap<AppUserUpdateDto, User>().ReverseMap();
 
-            //Mapping for AppUser entity
-            CreateMap<AppUserDto, AppUser>();
-            CreateMap<AppUser, AppUserDto>();
+            CreateMap<ColorDto, Color>().ReverseMap();
+            CreateMap<ColorAddDto, Color>().ReverseMap();
+            CreateMap<ColorUpdateDto, Color>().ReverseMap();
 
-            CreateMap<AppUserAddDto, AppUser>();
-            CreateMap<AppUser, AppUserAddDto>();
+            CreateMap<BrandDto, Brand>().ReverseMap();
+            CreateMap<BrandAddDto, Brand>().ReverseMap();
+            CreateMap<BrandUpdateDto, Brand>().ReverseMap();
 
-            CreateMap<AppUserUpdateDto, AppUser>();
-            CreateMap<AppUser, AppUserUpdateDto>();
+            CreateMap<CarDto, Car>().ReverseMap();
+            CreateMap<CarAddDto, Car>().ReverseMap();
+            CreateMap<CarUpdateDto, Car>().ReverseMap();
 
-            //Mapping for Color entity
-            CreateMap<ColorDto, Color>();
-            CreateMap<Color, ColorDto>();
-
-            CreateMap<ColorAddDto, Color>();
-            CreateMap<Color, ColorAddDto>();
-
-            CreateMap<ColorUpdateDto, Color>();
-            CreateMap<Color, ColorUpdateDto>();
-
-            //Mapping for Brand entity
-            CreateMap<BrandDto, Brand>();
-            CreateMap<Brand, BrandDto>();
-
-            CreateMap<BrandAddDto, Brand>();
-            CreateMap<Brand, BrandAddDto>();
-
-            CreateMap<BrandUpdateDto, Brand>();
-            CreateMap<Brand, BrandUpdateDto>();
-
-            //Mapping for Car entity
-            CreateMap<CarDto, Car>();
-            CreateMap<Car, CarDto>();
-
-            CreateMap<CarAddDto, Car>();
-            CreateMap<Car, CarAddDto>();
-
-            CreateMap<CarUpdateDto, Car>();
-            CreateMap<Car, CarUpdateDto>();
-
-            //Mapping for Rental entity
-            CreateMap<RentalDto, Rental>();
-            CreateMap<Rental, RentalDto>();
-
-            CreateMap<RentalAddDto, Rental>();
-            CreateMap<Rental, RentalAddDto>();
-
-            CreateMap<RentalUpdateDto, Rental>();
-            CreateMap<Rental, RentalUpdateDto>();
-
-            
+            CreateMap<RentalDto, Rental>().ReverseMap();
+            CreateMap<RentalAddDto, Rental>().ReverseMap();
+            CreateMap<RentalUpdateDto, Rental>().ReverseMap();            
 
             CreateMap<CarImageDto, CarImage>().ReverseMap();
 

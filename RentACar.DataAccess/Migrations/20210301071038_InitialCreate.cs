@@ -8,23 +8,6 @@ namespace RentACar.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppUsers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
@@ -51,23 +34,34 @@ namespace RentACar.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "OperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    AppUserId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Customers_AppUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_OperationClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "binary(500)", maxLength: 500, nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "binary(500)", maxLength: 500, nullable: false),
+                    State = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,6 +89,52 @@ namespace RentACar.DataAccess.Migrations
                         name: "FK_Cars_Colors_ColorId",
                         column: x => x.ColorId,
                         principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserOperationClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OperationClaimId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
+                        column: x => x.OperationClaimId,
+                        principalTable: "OperationClaims",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserOperationClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -149,15 +189,6 @@ namespace RentACar.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AppUsers",
-                columns: new[] { "Id", "Email", "FirstName", "LastName", "Password", "UserName" },
-                values: new object[,]
-                {
-                    { 1, "utimurcin@outlook.com", "Ugur", "Timurçin", "Ugur.123", "oxir" },
-                    { 2, "barantimurcin@outlook.com", "Baran", "Timurçin", "Baran.123", "oxir" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -180,31 +211,17 @@ namespace RentACar.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Cars",
                 columns: new[] { "Id", "BrandId", "ColorId", "DailyPrice", "Description", "ModelYear" },
-                values: new object[,]
-                {
-                    { 1, 1, 1, 350m, "perfect", 2019 },
-                    { 2, 3, 2, 400m, "perfect", 2020 },
-                    { 3, 3, 3, 200m, "perfect", 2021 }
-                });
+                values: new object[] { 1, 1, 1, 350m, "perfect", 2019 });
 
             migrationBuilder.InsertData(
-                table: "Customers",
-                columns: new[] { "Id", "AppUserId", "CompanyName" },
-                values: new object[,]
-                {
-                    { 1, 1, "Oxir Co." },
-                    { 2, 2, "Baran Co." }
-                });
+                table: "Cars",
+                columns: new[] { "Id", "BrandId", "ColorId", "DailyPrice", "Description", "ModelYear" },
+                values: new object[] { 2, 3, 2, 400m, "perfect", 2020 });
 
             migrationBuilder.InsertData(
-                table: "Rentals",
-                columns: new[] { "Id", "CarId", "CustomerId", "RentDate", "ReturnDate" },
-                values: new object[] { 1, 1, 1, new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
-
-            migrationBuilder.InsertData(
-                table: "Rentals",
-                columns: new[] { "Id", "CarId", "CustomerId", "RentDate", "ReturnDate" },
-                values: new object[] { 2, 2, 2, new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                table: "Cars",
+                columns: new[] { "Id", "BrandId", "ColorId", "DailyPrice", "Description", "ModelYear" },
+                values: new object[] { 3, 3, 3, 200m, "perfect", 2021 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CarImage_CarId",
@@ -222,9 +239,9 @@ namespace RentACar.DataAccess.Migrations
                 column: "ColorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_AppUserId",
+                name: "IX_Customers_UserId",
                 table: "Customers",
-                column: "AppUserId",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -236,6 +253,16 @@ namespace RentACar.DataAccess.Migrations
                 name: "IX_Rentals_CustomerId",
                 table: "Rentals",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserOperationClaims_OperationClaimId",
+                table: "UserOperationClaims",
+                column: "OperationClaimId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserOperationClaims_UserId",
+                table: "UserOperationClaims",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -247,10 +274,16 @@ namespace RentACar.DataAccess.Migrations
                 name: "Rentals");
 
             migrationBuilder.DropTable(
+                name: "UserOperationClaims");
+
+            migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "OperationClaims");
 
             migrationBuilder.DropTable(
                 name: "Brands");
@@ -259,7 +292,7 @@ namespace RentACar.DataAccess.Migrations
                 name: "Colors");
 
             migrationBuilder.DropTable(
-                name: "AppUsers");
+                name: "Users");
         }
     }
 }

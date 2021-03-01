@@ -10,7 +10,7 @@ using RentACar.DataAccess.Concrete;
 namespace RentACar.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210225124428_InitialCreate")]
+    [Migration("20210301071038_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,26 @@ namespace RentACar.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RentACar.Entities.AppUser", b =>
+            modelBuilder.Entity("RentACar.Core.Entities.Concrete.OperationClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationClaims");
+                });
+
+            modelBuilder.Entity("RentACar.Core.Entities.Concrete.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,48 +51,59 @@ namespace RentACar.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("binary(500)");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("binary(500)");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("Users");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "utimurcin@outlook.com",
-                            FirstName = "Ugur",
-                            LastName = "Timurçin",
-                            Password = "Ugur.123",
-                            UserName = "oxir"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "barantimurcin@outlook.com",
-                            FirstName = "Baran",
-                            LastName = "Timurçin",
-                            Password = "Baran.123",
-                            UserName = "oxir"
-                        });
+            modelBuilder.Entity("RentACar.Core.Entities.Concrete.UserOperationClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OperationClaimId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationClaimId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserOperationClaims");
                 });
 
             modelBuilder.Entity("RentACar.Entities.Brand", b =>
@@ -241,34 +271,20 @@ namespace RentACar.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppUserId = 1,
-                            CompanyName = "Oxir Co."
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppUserId = 2,
-                            CompanyName = "Baran Co."
-                        });
                 });
 
             modelBuilder.Entity("RentACar.Entities.Rental", b =>
@@ -299,24 +315,25 @@ namespace RentACar.DataAccess.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Rentals");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CarId = 1,
-                            CustomerId = 1,
-                            RentDate = new DateTime(2021, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ReturnDate = new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CarId = 2,
-                            CustomerId = 2,
-                            RentDate = new DateTime(2021, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ReturnDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
+            modelBuilder.Entity("RentACar.Core.Entities.Concrete.UserOperationClaim", b =>
+                {
+                    b.HasOne("RentACar.Core.Entities.Concrete.OperationClaim", "OperationClaim")
+                        .WithMany()
+                        .HasForeignKey("OperationClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentACar.Core.Entities.Concrete.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationClaim");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RentACar.Entities.Car", b =>
@@ -351,9 +368,9 @@ namespace RentACar.DataAccess.Migrations
 
             modelBuilder.Entity("RentACar.Entities.Customer", b =>
                 {
-                    b.HasOne("RentACar.Entities.AppUser", "AppUser")
+                    b.HasOne("RentACar.Core.Entities.Concrete.User", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
