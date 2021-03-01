@@ -1,4 +1,5 @@
 ﻿using RentACar.Core.Entities;
+using RentACar.Core.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace RentACar.Entities
         public int Id { get; set; }
         public string CompanyName { get; set; }
 
-        public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
+        public int UserId { get; set; }
+        public User AppUser { get; set; }
     }
 }
