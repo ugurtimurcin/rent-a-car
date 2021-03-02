@@ -55,8 +55,8 @@ namespace RentACar.DataAccess.Migrations
                     FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "binary(500)", maxLength: 500, nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "binary(500)", maxLength: 500, nullable: false),
+                    PasswordSalt = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
+                    PasswordHash = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
                     State = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

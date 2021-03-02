@@ -62,15 +62,15 @@ namespace RentACar.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<byte[]>("PasswordHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("binary(500)");
+                        .HasColumnType("varchar(500)");
 
-                    b.Property<byte[]>("PasswordSalt")
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("binary(500)");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<bool>("State")
                         .HasColumnType("bit");
