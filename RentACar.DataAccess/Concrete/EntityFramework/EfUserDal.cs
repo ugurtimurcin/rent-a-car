@@ -14,14 +14,14 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfEntityRepositoryBase<User, DataContext>, IUserDal
     {
-        public async Task<List<OperationClaimDto>> GetClaimsAsync(User  user)
+        public async Task<List<OperationClaim>> GetClaimsAsync(User  user)
         {
             using DataContext context = new DataContext();
             var result = from operationClaim in context.OperationClaims
                          join userOperationClaim in context.UserOperationClaims
                          on operationClaim.Id equals userOperationClaim.OperationClaimId
                          where userOperationClaim.UserId == user.Id
-                         select new OperationClaimDto
+                         select new OperationClaim
                          {
                              Id = operationClaim.Id,
                              Name = operationClaim.Name
