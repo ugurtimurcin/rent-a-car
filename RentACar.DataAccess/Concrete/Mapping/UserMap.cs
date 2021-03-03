@@ -30,12 +30,12 @@ namespace RentACar.DataAccess.Concrete.Mapping
             builder.Property(x => x.Email).HasMaxLength(50);
 
             builder.Property(x => x.PasswordSalt).IsRequired();
-            builder.Property(x => x.PasswordSalt).HasColumnType("varchar(500)");
-            builder.Property(x => x.PasswordSalt).HasMaxLength(500);
+            builder.Property(x => x.PasswordSalt).HasColumnType("varbinary(128)");
+            builder.Property(x => x.PasswordSalt).HasMaxLength(128);
 
             builder.Property(x => x.PasswordHash).IsRequired();
-            builder.Property(x => x.PasswordHash).HasColumnType("varchar(500)");
-            builder.Property(x => x.PasswordHash).HasMaxLength(500);
+            builder.Property(x => x.PasswordHash).HasColumnType("varbinary(128)");
+            builder.Property(x => x.PasswordHash).HasMaxLength(128);
 
             builder.Property(x => x.State).IsRequired();
         }
