@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,5 +19,6 @@ namespace RentACar.Business.Constants
         public static string UserExist = "User already exists";
         public static string UserRegistered = "User succesfully registered";
         public static string TokenCreated = "Access token created";
+        public static string AuthorizationDenied = "You do not have permisson to access";
     }
 }
