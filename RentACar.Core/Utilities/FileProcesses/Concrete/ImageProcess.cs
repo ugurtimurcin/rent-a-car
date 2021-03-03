@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using RentACar.Core.Utilities.Helpers.FileHelper.Abstract;
+using RentACar.Core.Utilities.FileProcesses.Abstract;
 using RentACar.Core.Utilities.Results.Abstract;
 using RentACar.Core.Utilities.Results.Concrete;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentACar.Core.Utilities.Helpers.FileHelper.Concrete
+namespace RentACar.Core.Utilities.FileProcesses.Concrete
 {
     public class ImageProcess : IImageProcess
     {

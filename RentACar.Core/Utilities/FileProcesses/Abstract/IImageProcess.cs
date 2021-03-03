@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentACar.Core.Utilities.Helpers.FileHelper.Abstract
+namespace RentACar.Core.Utilities.FileProcesses.Abstract
 {
     public interface IImageProcess
     {
