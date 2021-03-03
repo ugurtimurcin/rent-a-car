@@ -10,7 +10,7 @@ using RentACar.DataAccess.Concrete;
 namespace RentACar.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210302091540_InitialCreate")]
+    [Migration("20210302131301_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,15 +64,15 @@ namespace RentACar.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasMaxLength(128)
+                        .HasColumnType("varbinary(128)");
 
-                    b.Property<string>("PasswordSalt")
+                    b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasMaxLength(128)
+                        .HasColumnType("varbinary(128)");
 
                     b.Property<bool>("State")
                         .HasColumnType("bit");
