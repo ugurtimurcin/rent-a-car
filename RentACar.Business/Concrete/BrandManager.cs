@@ -1,4 +1,5 @@
 ﻿using RentACar.Business.Abstract;
+using RentACar.Business.BusinessAspects.Autofac;
 using RentACar.Business.ValidationRules.FluentValidation;
 using RentACar.Core.Aspects.Autofac.Validation;
 using RentACar.Core.DataAccess;
@@ -22,6 +23,7 @@ namespace RentACar.Business.Concrete
             _brandDal = brandDal;
         }
 
+        [SecuredOperation("Admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public async Task<IResult> AddAsync(Brand entity)
         {
@@ -34,7 +36,7 @@ namespace RentACar.Business.Concrete
             await _brandDal.DeleteAsync(entity);
             return new SuccessResult();
         }
-
+        [SecuredOperation("Admin")]
         public async Task<IDataResult<IEnumerable<Brand>>> GetAllAsync()
         {
             return new SuccessDataResult<IEnumerable<Brand>>(await _brandDal.GetAllAsync());
