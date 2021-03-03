@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentACar.Business.Abstract;
 using RentACar.Entities;
@@ -20,7 +21,9 @@ namespace RentACar.WebAPI.Controllers
             _mapper = mapper;
         }
 
+
         [HttpGet("getall")]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var result = await _brandService.GetAllAsync();
