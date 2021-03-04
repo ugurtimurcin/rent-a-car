@@ -1,6 +1,7 @@
 ﻿using RentACar.Business.Abstract;
 using RentACar.Business.BusinessAspects.Autofac;
 using RentACar.Business.ValidationRules.FluentValidation;
+using RentACar.Core.Aspects.Autofac.Caching;
 using RentACar.Core.Aspects.Autofac.Validation;
 using RentACar.Core.DataAccess;
 using RentACar.Core.Utilities.Results.Abstract;
@@ -23,8 +24,9 @@ namespace RentACar.Business.Concrete
             _brandDal = brandDal;
         }
 
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
         [ValidationAspect(typeof(BrandValidator))]
+        [CacheRemoveAspect("IBrandService.Get")]
         public async Task<IResult> AddAsync(Brand entity)
         {
             await _brandDal.AddAsync(entity);
@@ -36,18 +38,20 @@ namespace RentACar.Business.Concrete
             await _brandDal.DeleteAsync(entity);
             return new SuccessResult();
         }
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
+        [CacheAspect]
         public async Task<IDataResult<IEnumerable<Brand>>> GetAllAsync()
         {
             return new SuccessDataResult<IEnumerable<Brand>>(await _brandDal.GetAllAsync());
         }
-
+        [CacheAspect]
         public async Task<IDataResult<Brand>> GetByIdAsync(int id)
         {
             return new SuccessDataResult<Brand>(await _brandDal.GetAsync(x=>x.Id == id));
         }
 
         [ValidationAspect(typeof(BrandValidator))]
+        [CacheRemoveAspect("IBrandService.Get")]
         public async Task<IResult> UpdateAsync(Brand entity)
         {
             await _brandDal.UpdateAsync(entity);
