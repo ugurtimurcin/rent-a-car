@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RentACar.Core.DependencyResolvers;
+using RentACar.Core.Extensions;
 using RentACar.Core.Utilities.IoC;
 using RentACar.Core.Utilities.Security.Encryption;
 using RentACar.Core.Utilities.Security.JWT;
@@ -33,7 +35,6 @@ namespace RentACar.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddDependencies();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper(typeof(Startup));
 
 
@@ -53,8 +54,9 @@ namespace RentACar.WebAPI
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
-
-            ServiceTool.Create(services);
+            services.AddDependencyResolvers(new ICoreModule[] {
+                new CoreModule()
+            }); ;
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
