@@ -14,6 +14,8 @@ namespace RentACar.Entities.DTOs
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
+        public int BrandId { get; set; }
         public string Brand { get; set; }
+        public string ImagePath { get; set; }
     }
 }
