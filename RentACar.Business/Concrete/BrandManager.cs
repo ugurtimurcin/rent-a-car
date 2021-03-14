@@ -24,7 +24,7 @@ namespace RentACar.Business.Concrete
             _brandDal = brandDal;
         }
 
-        //[SecuredOperation("Admin")]
+        [SecuredOperation("Admin")]
         [ValidationAspect(typeof(BrandValidator))]
         [CacheRemoveAspect("IBrandService.Get")]
         public async Task<IResult> AddAsync(Brand entity)
@@ -38,7 +38,7 @@ namespace RentACar.Business.Concrete
             await _brandDal.DeleteAsync(entity);
             return new SuccessResult();
         }
-        //[SecuredOperation("Admin")]
+
         [CacheAspect]
         public async Task<IDataResult<IEnumerable<Brand>>> GetAllAsync()
         {
