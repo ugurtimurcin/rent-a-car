@@ -41,6 +41,11 @@ namespace RentACar.Business.Concrete
             return new SuccessDataResult<IEnumerable<Car>>(await _carDal.GetAllAsync());
         }
 
+        public async Task<IDataResult<IEnumerable<CarDetailDto>>> GetByBrandAsync(int id)
+        {
+            return new SuccessDataResult<IEnumerable<CarDetailDto>>(await _carDal.GetCarDetailAsync(x => x.BrandId == id));
+        }
+
         public async Task<IDataResult<Car>> GetByIdAsync(int id)
         {
             return new SuccessDataResult<Car>(await _carDal.GetAsync(x=>x.Id == id));

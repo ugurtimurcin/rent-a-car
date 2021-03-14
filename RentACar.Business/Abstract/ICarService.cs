@@ -13,6 +13,7 @@ namespace RentACar.Business.Abstract
     {
         Task<IDataResult<Car>> GetByIdAsync(int id);
         Task<IDataResult<IEnumerable<Car>>> GetAllAsync();
+        Task<IDataResult<IEnumerable<CarDetailDto>>> GetByBrandAsync(int id);
         Task<IResult> AddAsync(Car entity);
         Task<IResult> DeleteAsync(Car entity);
         Task<IResult> UpdateAsync(Car entity);
