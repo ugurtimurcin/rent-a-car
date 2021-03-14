@@ -36,7 +36,7 @@ namespace RentACar.WebAPI
         {
             //services.AddDependencies();
             services.AddAutoMapper(typeof(Startup));
-
+            services.AddCors();
 
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -73,6 +73,11 @@ namespace RentACar.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentACar.WebAPI v1"));
             }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200");
+            });
 
             app.UseRouting();
 
