@@ -14,24 +14,25 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, DataContext>, ICarDal
     {
-        public async Task<List<CarDetailDto>> GetCarDetailAsync()
+        public async Task<List<CarDetailDto>> GetCarDetailAsync(Expression<Func<CarDetailDto, bool>> predicate = null)
         {
             using var context = new DataContext();
-            var result = from c in context.Cars
-                         join b in context.Brands
-                         on c.BrandId equals b.Id
-                         join col in context.Colors
-                         on c.ColorId equals col.Id
+            var result = from car in context.Cars
+                         join brand in context.Brands
+                         on car.BrandId equals brand.Id
+                         join color in context.Colors
+                         on car.ColorId equals color.Id
                          select new CarDetailDto
                          {
-                             Id = c.Id,
-                             Brand = b.Name,
-                             Color = col.Name,
-                             DailyPrice = c.DailyPrice,
-                             Description = c.Description,
-                             ModelYear = c.ModelYear
+                             Brand = brand.Name,
+                             BrandId = brand.Id,
+                             Color = color.Name,
+                             DailyPrice = car.DailyPrice,
+                             Description = car.Description,
+                             Id = car.Id,
+                             ModelYear = car.ModelYear
                          };
-            return await result.OrderByDescending(x=>x.Id).ToListAsync();
+            return predicate != null ? await result.Where(predicate).ToListAsync() : await result.ToListAsync();
         }
     }
 }

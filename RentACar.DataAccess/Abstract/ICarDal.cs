@@ -13,6 +13,6 @@ namespace RentACar.DataAccess.Abstract
 {
     public interface ICarDal : IEntityRepository<Car>
     {
-        Task<List<CarDetailDto>> GetCarDetailAsync();
+        Task<List<CarDetailDto>> GetCarDetailAsync(Expression<Func<CarDetailDto, bool>> predicate = null);
     }
 }
