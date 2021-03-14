@@ -39,7 +39,7 @@ namespace RentACar.WebAPI.Controllers
             var result = await _carService.GetCarDetailAsync();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(_mapper.Map<List<CarDetailDto>>(result.Data));
             }
             return BadRequest(result);
         }
@@ -51,6 +51,17 @@ namespace RentACar.WebAPI.Controllers
             if (result.Success)
             {
                 return Ok(_mapper.Map<CarDto>(result.Data));
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbybrand")]
+        public async Task<IActionResult> GetByBrand(int id)
+        {
+            var result = await _carService.GetByBrandAsync(id);
+            if (result.Success)
+            {
+                return Ok(_mapper.Map<List<CarDetailDto>>(result.Data));
             }
             return BadRequest(result);
         }

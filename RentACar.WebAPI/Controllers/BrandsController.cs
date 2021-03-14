@@ -23,10 +23,10 @@ namespace RentACar.WebAPI.Controllers
 
 
         [HttpGet("getall")]
-        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var result = await _brandService.GetAllAsync();
+            
             if (result.Success)
             {
                 return Ok(_mapper.Map<List<BrandDto>>(result.Data));
