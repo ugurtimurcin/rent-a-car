@@ -22,6 +22,8 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                          on car.BrandId equals brand.Id
                          join color in context.Colors
                          on car.ColorId equals color.Id
+                         join carImage in context.CarImages
+                         on car.Id equals carImage.CarId
                          select new CarDetailDto
                          {
                              Brand = brand.Name,
@@ -30,7 +32,8 @@ namespace RentACar.DataAccess.Concrete.EntityFramework
                              DailyPrice = car.DailyPrice,
                              Description = car.Description,
                              Id = car.Id,
-                             ModelYear = car.ModelYear
+                             ModelYear = car.ModelYear,
+                             ImagePath = carImage.ImagePath
                          };
             return predicate != null ? await result.Where(predicate).ToListAsync() : await result.ToListAsync();
         }
