@@ -21,7 +21,8 @@ namespace RentACar.DataAccess.Concrete.Mapping
             builder.HasData(
                 new Color { Id = 1, Name = "Black" },
                 new Color { Id = 2, Name = "Gray" },
-                new Color { Id = 3, Name = "Red" }
+                new Color { Id = 3, Name = "Red" },
+                new Color { Id = 4, Name = "White" }
                 );
         }
     }

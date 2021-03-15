@@ -20,6 +20,5 @@ namespace RentACar.Entities
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        public List<CarImage> CarImages { get; set; }
     }
 }

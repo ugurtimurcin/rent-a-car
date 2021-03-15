@@ -25,9 +25,9 @@ namespace RentACar.WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromForm] CarImageDto imageDto, IFormFile file)
+        public async Task<IActionResult> Add([FromForm] CarImageDto imageDto, List<IFormFile> files)
         {
-            var result = await _carImageService.AddAsync(_mapper.Map<CarImage>(imageDto), file);
+            var result = await _carImageService.AddAsync(_mapper.Map<CarImage>(imageDto), files);
             if (result.Success)
             {
                 return Created("", result);

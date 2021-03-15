@@ -14,6 +14,5 @@ namespace RentACar.Entities
         public DateTime DateTime { get; set; } = DateTime.Now;
 
         public int CarId { get; set; }
-        public Car Car { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace RentACar.Business.Abstract
     {
         Task<IDataResult<CarImage>> GetByIdAsync(int id);
         Task<IDataResult<IEnumerable<CarImage>>> GetAllAsync();
-        Task<IResult> AddAsync(CarImage entity, IFormFile file);
+        Task<IResult> AddAsync(CarImage entity, List<IFormFile> files);
         Task<IResult> DeleteAsync(CarImage entity);
         Task<IResult> UpdateAsync(CarImage entity, IFormFile file);
     }

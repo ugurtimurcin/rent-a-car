@@ -21,7 +21,8 @@ namespace RentACar.DataAccess.Concrete.Mapping
             builder.HasData(
                 new Brand { Id = 1, Name = "Audi" },
                 new Brand { Id = 2, Name = "BMW" },
-                new Brand { Id = 3, Name = "Renault" }
+                new Brand { Id = 3, Name = "Renault" },
+                new Brand { Id = 4, Name = "Volkswagen" }
                 );
         }
     }

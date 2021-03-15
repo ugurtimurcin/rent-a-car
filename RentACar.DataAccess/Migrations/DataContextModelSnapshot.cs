@@ -137,6 +137,11 @@ namespace RentACar.DataAccess.Migrations
                         {
                             Id = 3,
                             Name = "Renault"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Volkswagen"
                         });
                 });
 
@@ -186,7 +191,7 @@ namespace RentACar.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            BrandId = 3,
+                            BrandId = 2,
                             ColorId = 2,
                             DailyPrice = 400m,
                             Description = "perfect",
@@ -200,6 +205,15 @@ namespace RentACar.DataAccess.Migrations
                             DailyPrice = 200m,
                             Description = "perfect",
                             ModelYear = 2021
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BrandId = 4,
+                            ColorId = 4,
+                            DailyPrice = 150m,
+                            Description = "perfect",
+                            ModelYear = 2018
                         });
                 });
 
@@ -221,9 +235,7 @@ namespace RentACar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
-
-                    b.ToTable("CarImage");
+                    b.ToTable("CarImages");
                 });
 
             modelBuilder.Entity("RentACar.Entities.Color", b =>
@@ -259,6 +271,11 @@ namespace RentACar.DataAccess.Migrations
                         {
                             Id = 3,
                             Name = "Red"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "White"
                         });
                 });
 
@@ -353,17 +370,6 @@ namespace RentACar.DataAccess.Migrations
                     b.Navigation("Color");
                 });
 
-            modelBuilder.Entity("RentACar.Entities.CarImage", b =>
-                {
-                    b.HasOne("RentACar.Entities.Car", "Car")
-                        .WithMany("CarImages")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
             modelBuilder.Entity("RentACar.Entities.Customer", b =>
                 {
                     b.HasOne("RentACar.Core.Entities.Concrete.User", "AppUser")
@@ -392,11 +398,6 @@ namespace RentACar.DataAccess.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("RentACar.Entities.Car", b =>
-                {
-                    b.Navigation("CarImages");
                 });
 #pragma warning restore 612, 618
         }

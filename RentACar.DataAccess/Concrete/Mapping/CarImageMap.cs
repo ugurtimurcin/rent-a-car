@@ -15,8 +15,6 @@ namespace RentACar.DataAccess.Concrete.Mapping
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
-            builder.HasOne(x => x.Car).WithMany(x => x.CarImages).HasForeignKey(x => x.CarId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

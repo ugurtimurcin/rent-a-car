@@ -25,7 +25,7 @@ namespace RentACar.Business.Concrete
             _carImageDal = carImageDal;
             _imageProcess = imageProcess;
         }
-        public async Task<IResult> AddAsync(CarImage entity, IFormFile file)
+        public async Task<IResult> AddAsync(CarImage entity, List<IFormFile> files)
         {
             var result = BusinessRules.Run(await CheckCarImageLimit(entity.CarId));
             if (result != null)
@@ -33,11 +33,15 @@ namespace RentACar.Business.Concrete
                 return result;
             }
 
-            entity.ImagePath = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            foreach (var file in files)
+            {
+                entity.ImagePath = Guid.NewGuid() + Path.GetExtension(file.FileName);
 
-            await _imageProcess.UploadAsync(entity.ImagePath, file);
+                await _imageProcess.UploadAsync(entity.ImagePath, file);
 
-            await _carImageDal.AddAsync(entity);
+                await _carImageDal.AddAsync(entity);
+            }
+            
             return new SuccessResult();
         }
 

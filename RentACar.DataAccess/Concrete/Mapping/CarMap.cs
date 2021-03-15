@@ -23,8 +23,9 @@ namespace RentACar.DataAccess.Concrete.Mapping
 
             builder.HasData(
                 new Car { Id = 1, ModelYear = 2019, DailyPrice = 350, Description = "perfect", BrandId = 1, ColorId = 1 },
-                new Car { Id = 2, ModelYear = 2020, DailyPrice = 400, Description = "perfect", BrandId = 3, ColorId = 2 },
-                new Car { Id = 3, ModelYear = 2021, DailyPrice = 200, Description = "perfect", BrandId = 3, ColorId = 3 }
+                new Car { Id = 2, ModelYear = 2020, DailyPrice = 400, Description = "perfect", BrandId = 2, ColorId = 2 },
+                new Car { Id = 3, ModelYear = 2021, DailyPrice = 200, Description = "perfect", BrandId = 3, ColorId = 3 },
+                new Car { Id = 4, ModelYear = 2018, DailyPrice = 150, Description = "perfect", BrandId = 4, ColorId = 4 }
                 );
         }
     }
