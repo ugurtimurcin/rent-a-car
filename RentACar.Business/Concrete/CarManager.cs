@@ -56,6 +56,11 @@ namespace RentACar.Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(await _carDal.GetCarDetailAsync());
         }
 
+        public async Task<IDataResult<CarDetailDto>> GetCarDetailByIdAsync(int id)
+        {
+            return new SuccessDataResult<CarDetailDto>(await _carDal.GetCarDetailByIdAsync(id));
+        }
+
         [ValidationAspect(typeof(CarValidator))]
         public async Task<IResult> UpdateAsync(Car entity)
         {
